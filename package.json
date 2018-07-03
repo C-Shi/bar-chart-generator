@@ -4,6 +4,7 @@
   "description": "",
   "devDependencies": {
     "eslint": "^3.19.0",
-    "eslint-config-lighthouselabs": "lighthouse-labs/eslint-config-lighthouselabs"
+    "eslint-config-lighthouselabs": "lighthouse-labs/eslint-config-lighthouselabs",
+    "eslint-plugin-react": "^7.10.0"
   }
 }
