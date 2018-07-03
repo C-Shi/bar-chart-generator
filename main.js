@@ -1,10 +1,11 @@
-var data = [1,2,3,5,4];
+var data = [1,2,3,5,4,5];
 var options = {
-  barWidth: "300px",
+  barWidth: 30,
   barColor: "red",
   labelColor: "black"
 }
 var element = "CANVAS";
+var barWidth = 30;
 
 function drawBarChart(data, options, element){
   //Step 1: create a Canavs element on the page for future display of the bar Chart
@@ -23,7 +24,7 @@ function drawBarChart(data, options, element){
   var output = calculateBarHeight(data, maxIndex, chartHeight);
 
   // Step 3: configure options - add bar spacing based on the # of value
-
+  var barSpace = barSpacing(data.length, charWidth, options.barWidth);
   // Step 4: render to the html
 
 }
@@ -52,5 +53,12 @@ function calculateBarHeight(data, maxIndex, chartHeight){
 
   console.log(output);
   return output;
+}
+
+// this function will calculate the bar spacing value
+function barSpacing(Num, charWidth, barWidth){
+  var barSpace = Math.floor(charWidth * 0.9 / Num) - barWidth;
+  console.log(barSpace)
+  return barSpace;
 }
 drawBarChart(data, options, element);
