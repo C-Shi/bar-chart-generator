@@ -1,9 +1,10 @@
-var data = [1,2,3,5,4,5, 7, 9, 20, 1, 17];
+var data = [1,2,3,5,4,5, 7, 9, 20, 1, 20, 4];
 var options = {
   chartWidth: 1000,
   chartHeight: 300,
   barSpacing: 30,
-  barColor: "rgba(0, 255, 0, 0.5)"
+  barColor: "rgba(0, 255, 0, 0.5)",
+  labelColor: "gray"
 }
 var element = "CANVAS";
 var barWidth = 30;
@@ -27,8 +28,8 @@ function drawBarChart(data, options, element){
 
   // Step 4: render each bar to html
   renderBar(output, barWidth, options, canvas);
-
-
+  // Step 5: display bar properties
+  chartAxes(output, options, barWidth, canvas);
 
 
 }
@@ -92,6 +93,16 @@ function renderBar(output, barWidth, options, canvas){
   }
 }
 
+// this function will display X-Y properties for the chart
+function chartAxes(output, options, barWidth, canvas){
+  // this section is for X-axis, display label
+  var c = canvas.getContext("2d");
+  for(var i = 0; i < output.length; i++){
+    c.fillStyle = options.labelColor;
+    c.font = "200px";
+    c.fillText("value " + (i+1).toString(), options.barSpacing + barWidth / output.length + 30 + (i * (options.barSpacing + barWidth)), options.chartHeight + 20);
+  }
+}
 drawBarChart(data, options, element);
 
 
