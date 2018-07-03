@@ -1,14 +1,25 @@
-var data = [1,2,3,5,4,5, 7, 9, 20, 1, 20, 4];
+
+// This is the sample data to generate data ************************
+var data = [1,2,3,5,4,5, 7, 9, 30, 1, 10, 4];
 var options = {
   chartWidth: 1000,
   chartHeight: 300,
   barSpacing: 30,
   barColor: "rgba(0, 255, 0, 0.5)",
-  labelColor: "gray"
+  labelColor: "gray",
+  yMax: 30,
+  yInterval: 5,
+  xLabel: {value: "year", fontSize: "15px"},
+  yLabel: {value: "profit", fontSize: "10px"},
+  title: {value: "Proft Summary for the Company", fontSize:"20px"},
+  displayValue: "centre"
 }
 var element = "CANVAS";
-var barWidth = 30;
+// ****************************************************************
 
+
+// drawBarChart is the main function of this API that client will call upon
+// *********************************************************************************************
 function drawBarChart(data, options, element){
   //Step 1: create a Canavs element on the page for future display of the bar Chart
   var canvas = document.createElement(element);
@@ -29,23 +40,22 @@ function drawBarChart(data, options, element){
   // Step 4: render each bar to html
   renderBar(output, barWidth, options, canvas);
   // Step 5: display bar properties
-  chartAxes(output, options, barWidth, canvas);
-
-
+  chartAxes(output, options, barWidth, maxIndex, canvas);
+  // Step 6: generate X-Y label
+  generateLabel(options, canvas);
 }
+// *********************************************************************************************
+
 
 function createChartEssential(data, options, element, canvas){
-
   var chartHeight = options.chartHeight;
   var chartWidth = options.chartWidth;
-
   var c = canvas.getContext("2d");
   c.beginPath();
-  c.moveTo(30, 30);
-  c.lineTo(30, chartHeight);
+  c.moveTo(40, 30);
+  c.lineTo(40, chartHeight);
   c.lineTo(chartWidth, chartHeight);
   c.stroke();
-
   return canvas;
 }
 
@@ -78,31 +88,84 @@ function calculateBarHeight(data, maxIndex, chartHeight){
 // this function will calculate the bar spacing value
 function getBarWidth(Num, charWidth, barSpacing){
   var barWidth = Math.floor(charWidth * 0.9 / Num) - barSpacing;
-  console.log(barWidth)
+
   return barWidth;
 }
 
 // this function will render all bar
 function renderBar(output, barWidth, options, canvas){
   var c = canvas.getContext("2d");
-  c.fillStyle = options.barColor;
+  var valuePosition = 0;
+
   for (var i = 0; i < output.length; i++){
+    // draw bar
     var x = i * (barWidth + options.barSpacing);
     var y = options.chartHeight - output[i][1];
-    c.fillRect(x + 30 + options.barSpacing, y, barWidth, output[i][1]);
+    c.fillStyle = options.barColor;
+    c.fillRect(x + 40 + options.barSpacing, y, barWidth, output[i][1]);
+    // display value accordingly
+    c.fillStyle = options.labelColor;
+    if (options.displayValue.toUpperCase() === "TOP"){
+      valuePosition = options.chartHeight - output[i][1]
+    }else if (options.displayValue.toUpperCase() === "CENTRE"){
+      valuePosition = options.chartHeight - output[i][1] / 2
+    }else if (options.displayValue.toUpperCase() === "BOTTOM"){
+      valuePosition = options.chartHeight - 2;
+    }
+    c.fillText(output[i][0], options.barSpacing + barWidth / output.length + 40 + (i * (options.barSpacing + barWidth)) + barWidth / 3 , valuePosition);
   }
 }
 
 // this function will display X-Y properties for the chart
-function chartAxes(output, options, barWidth, canvas){
+function chartAxes(output, options, barWidth, maxIndex, canvas){
   // this section is for X-axis, display label
   var c = canvas.getContext("2d");
+  c.fillStyle = options.labelColor;
+
+
   for(var i = 0; i < output.length; i++){
-    c.fillStyle = options.labelColor;
-    c.font = "200px";
-    c.fillText("value " + (i+1).toString(), options.barSpacing + barWidth / output.length + 30 + (i * (options.barSpacing + barWidth)), options.chartHeight + 20);
+    c.fillText("value " + (i+1).toString(), options.barSpacing + barWidth / output.length + 40 + (i * (options.barSpacing + barWidth)), options.chartHeight + 20);
   }
+
+  // this section is for Y-axis, display certain value based on client's input
+  //display 0
+  c.fillText(0, 10, options.chartHeight);
+  c.beginPath();
+  c.moveTo(40, options.chartHeight);
+  c.lineTo(30, options.chartHeight);
+  c.stroke();
+
+  // yMaxPosition will determine where the max value of Y-axis will be displayed
+  var yMaxPosition = options.chartHeight - options.yMax / output[maxIndex][0] * output[maxIndex][1];
+  // display each lable on Y-axis
+  for (var i = 0; i < options.yInterval; i++){
+    var value = options.yMax - i * options.yMax / options.yInterval;
+    var x = 10;
+    var y = yMaxPosition + i * (options.chartHeight - yMaxPosition) / options.yInterval;
+    c.fillText(value, x, y);
+    c.beginPath();
+    c.moveTo(40, y);
+    c.lineTo(30, y);
+    c.stroke();
+  }
+} // end of chartAxes function
+
+function generateLabel(options, canvas){
+  // generate X label
+  var c = canvas.getContext("2d");
+  c.fillStyle = options.labelColor;
+  c.font = options.xLabel.fontSize + " Arial";
+  c.fillText(options.xLabel.value.toUpperCase(), options.chartWidth / 2, options.chartHeight + 50);
+  // generate Y Label
+  c.font = options.yLabel.fontSize + " Arial";
+  c.fillText(options.yLabel.value.toUpperCase(), 10, 20);
+  // generate Chart Title
+  c.font = options.title.fontSize + " Arial";
+  c.textAlign = "center";
+  c.fillText(options.title.value.toUpperCase(), options.chartWidth / 2, 30);
 }
+
+// call this main function to generate bar chart
 drawBarChart(data, options, element);
 
 
