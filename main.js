@@ -13,7 +13,7 @@ var options = {
   yLabel: {value: "profit", fontSize: "10px"},
   title: {value: "Proft Summary for the Company", fontSize:"20px"},
   displayValue: "centre"
-}
+};
 var element = "CANVAS";
 // ****************************************************************
 
@@ -26,7 +26,7 @@ function drawBarChart(data, options, element){
   document.body.appendChild(canvas);
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  var canvas = createChartEssential(data, options, element, canvas);
+  canvas = createChartEssential(data, options, element, canvas);
 
   // Step 2: anaylyze the data - determine max bar height, determine scale of each data
   // find the max number in data, its height should equals to 80% of total chart height
@@ -67,7 +67,7 @@ function findMax(data){
       maxIndex = i;
     }
   }
-  console.log(maxIndex);
+
   return maxIndex;
 }
 
@@ -81,7 +81,6 @@ function calculateBarHeight(data, maxIndex, chartHeight){
     output.push([data[i], barHeight]);
   }
 
-  console.log(output);
   return output;
 }
 
@@ -106,9 +105,9 @@ function renderBar(output, barWidth, options, canvas){
     // display value accordingly
     c.fillStyle = options.labelColor;
     if (options.displayValue.toUpperCase() === "TOP"){
-      valuePosition = options.chartHeight - output[i][1]
+      valuePosition = options.chartHeight - output[i][1];
     }else if (options.displayValue.toUpperCase() === "CENTRE"){
-      valuePosition = options.chartHeight - output[i][1] / 2
+      valuePosition = options.chartHeight - output[i][1] / 2;
     }else if (options.displayValue.toUpperCase() === "BOTTOM"){
       valuePosition = options.chartHeight - 2;
     }
@@ -138,7 +137,7 @@ function chartAxes(output, options, barWidth, maxIndex, canvas){
   // yMaxPosition will determine where the max value of Y-axis will be displayed
   var yMaxPosition = options.chartHeight - options.yMax / output[maxIndex][0] * output[maxIndex][1];
   // display each lable on Y-axis
-  for (var i = 0; i < options.yInterval; i++){
+  for (i = 0; i < options.yInterval; i++){
     var value = options.yMax - i * options.yMax / options.yInterval;
     var x = 10;
     var y = yMaxPosition + i * (options.chartHeight - yMaxPosition) / options.yInterval;
