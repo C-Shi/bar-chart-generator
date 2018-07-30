@@ -1,20 +1,50 @@
 
+// Here is the instruction of using this API
+// *********************************************
+// when using this API, user will need to call drawBarChart function and passing in three arguments
+// first argument should be an array containing the value of each individual bar
+// second argument should be an object specifing how the bar will be render
+// third argument should be an string indicating on which element the bar will be render on
+// Belows are a sample function call
+
+
 // This is the sample data to generate data ************************
-var data = [1,2,3,5,4,5, 7, 9, 30, 1, 10, 4];
+var data = [1,2,3,5,4,5, 7, 10, 8, 20];
 var options = {
   chartWidth: 1000,
   chartHeight: 300,
   barSpacing: 30,
   barColor: "rgba(0, 255, 0, 0.5)",
   labelColor: "gray",
-  yMax: 30,
-  yInterval: 5,
+  yMax: 100,
+  yInterval: 20,
   xLabel: {value: "year", fontSize: "15px"},
   yLabel: {value: "profit", fontSize: "10px"},
   title: {value: "Proft Summary for the Company", fontSize:"20px"},
   displayValue: "centre"
 };
-var element = "CANVAS";
+var element = "body";
+
+// call this main function to generate bar chart
+drawBarChart(data, options, element);
+
+data = [10,36,52,40, 40, 100, 48, 20];
+options = {
+  chartWidth: 800,
+  chartHeight: 600,
+  barSpacing: 30,
+  barColor: "rgba(0, 100, 100, 0.5)",
+  labelColor: "red",
+  yMax: 120,
+  yInterval: 20,
+  xLabel: {value: "year", fontSize: "15px"},
+  yLabel: {value: "profit", fontSize: "10px"},
+  title: {value: "Proft Summary for the Company", fontSize:"20px"},
+  displayValue: "centre"
+};
+var element = "body";
+
+drawBarChart(data, options, element)
 // ****************************************************************
 
 
@@ -22,11 +52,13 @@ var element = "CANVAS";
 // *********************************************************************************************
 function drawBarChart(data, options, element){
   //Step 1: create a Canavs element on the page for future display of the bar Chart
-  var canvas = document.createElement(element);
-  document.body.appendChild(canvas);
+  element = document.querySelector(element)
+  var canvas = document.createElement("CANVAS");
+  element.appendChild(canvas);
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  canvas = createChartEssential(data, options, element, canvas);
+  canvas = createChartEssential(data, options, canvas);
+
 
   // Step 2: anaylyze the data - determine max bar height, determine scale of each data
   // find the max number in data, its height should equals to 80% of total chart height
@@ -47,7 +79,7 @@ function drawBarChart(data, options, element){
 // *********************************************************************************************
 
 
-function createChartEssential(data, options, element, canvas){
+function createChartEssential(data, options, canvas){
   var chartHeight = options.chartHeight;
   var chartWidth = options.chartWidth;
   var c = canvas.getContext("2d");
@@ -164,8 +196,7 @@ function generateLabel(options, canvas){
   c.fillText(options.title.value.toUpperCase(), options.chartWidth / 2, 30);
 }
 
-// call this main function to generate bar chart
-drawBarChart(data, options, element);
+
 
 
 
