@@ -4,7 +4,7 @@
 # EXAMPLE
 **An example of the output could be view as"**
 
-./exmaple.PNG
+![Alt text](https://github.com/C-Shi/bar-chart-generator/blob/master/example.PNG)
 
 # HOW TO USE
 Include main.js file in your html page, exports as an module
