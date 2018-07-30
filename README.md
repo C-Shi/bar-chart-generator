@@ -6,7 +6,7 @@
 
 ./exmaple.PNG
 
-#HOW TO USE
+# HOW TO USE
 Include main.js file in your html page, exports as an module
 
 When using this API, call drawBarChart() function and passing three argument:
@@ -42,8 +42,8 @@ The last argument is string indicating where the char will be render to, it shou
 var element = "body";
 ``
 
-#LIST OF KNOWN BUG AND ISSUE
+# LIST OF KNOWN BUG AND ISSUE
 The styling of the graph is not 100% customizable, such as margin and padding
 
-#ROADMAP
+# ROADMAP
 This project is dedicated within a limited amount of time. If more time given, a multiple value chart will be created
